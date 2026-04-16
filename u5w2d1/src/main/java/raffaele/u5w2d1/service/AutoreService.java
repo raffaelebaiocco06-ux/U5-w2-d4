@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import raffaele.u5w2d1.entities.Autore;
 import raffaele.u5w2d1.execptionnn.NotFoundException;
+import raffaele.u5w2d1.payload.AutoreDTO;
 import raffaele.u5w2d1.payload.PayloadAutore;
 import raffaele.u5w2d1.repositori.AutoreRepository;
 
@@ -23,13 +24,10 @@ public class AutoreService {
         return this.autoreRepository.findAll();
     }
 
-    public Autore salvaAutore(PayloadAutore body) {
-        Autore newAutore = new Autore();
-        newAutore.setNome(body.getNome());
-        newAutore.setCognome(body.getCognome());
-        newAutore.setEmail(body.getEmail());
-        newAutore.setNascita(body.getNascita());
-        newAutore.setAvatar("https://ui-avatars.com/api/?name=" + body.getNome() + "+" + body.getCognome());
+    public Autore salvaAutore(AutoreDTO body) {
+        Autore newAutore = new Autore(body.nome(), body.cognome(), body.email(), body.nascita(), body.avatar());
+
+        newAutore.setAvatar("https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome());
 
         return this.autoreRepository.save(newAutore);
     }

@@ -1,8 +1,13 @@
 package raffaele.u5w2d1.controller;
 
+import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import raffaele.u5w2d1.entities.Autore;
+import raffaele.u5w2d1.execptionnn.ValidationExeprion;
+import raffaele.u5w2d1.payload.AutoreDTO;
 import raffaele.u5w2d1.payload.PayloadAutore;
 import raffaele.u5w2d1.service.AutoreService;
 
@@ -30,7 +35,11 @@ public class AutoreController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Autore createAutore(@RequestBody PayloadAutore body) {
+    public Autore createAutore(@RequestBody @Validated AutoreDTO body, BindingResult validationResult ) {
+        if(validationResult.hasErrors()){
+            List<String> erroriMadornali= validationResult.getFieldErrors().stream().map(err -> err.getDefaultMessage()).toList();
+            throw new ValidationExeprion(erroriMadornali);
+        }
         return this.autoreService.salvaAutore(body);
     }
 

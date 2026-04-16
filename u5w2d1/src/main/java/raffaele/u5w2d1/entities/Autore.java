@@ -33,12 +33,11 @@ public class Autore {
     @Column(nullable = false)
     private String avatar;
 
-    public Autore(long id, String avatar, LocalDate nascita, String email, String cognome, String nome) {
-        this.id = id;
-        this.avatar = avatar;
-        this.nascita = nascita;
-        this.email = email;
-        this.cognome = cognome;
+    public Autore(String nome, String cognome, String email, LocalDate nascita, String avatar) {
         this.nome = nome;
+        this.cognome = cognome;
+        this.email = email;
+        this.nascita = nascita;
+        this.avatar = avatar;
     }
 }

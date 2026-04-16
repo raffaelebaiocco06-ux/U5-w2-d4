@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import raffaele.u5w2d1.payload.ErrorPayload;
+import raffaele.u5w2d1.payload.ErrorsWithListDTO;
 
 import java.time.LocalDateTime;
 
@@ -33,4 +34,10 @@ public class ErrorsHandler {
         // quindi un qualcosa tipo un stack trace ci può aiutare nella risoluzione del bug
         return new ErrorPayload("C'è stato un errore lato server, giuro che lo risolveremo presto!", LocalDateTime.now());
     }
+    @ExceptionHandler(ValidationExeprion.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)//daje 400
+    public ErrorsWithListDTO handlevalidationErrors(ValidationExeprion ex){
+        return new ErrorsWithListDTO(ex.getMessage(),LocalDateTime.now(),ex.getErrors());
+    }
+
 }
