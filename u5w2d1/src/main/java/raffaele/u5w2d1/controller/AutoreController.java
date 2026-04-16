@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import raffaele.u5w2d1.entities.Autore;
 import raffaele.u5w2d1.execptionnn.ValidationExeprion;
 import raffaele.u5w2d1.payload.AutoreDTO;
@@ -52,5 +53,20 @@ public class AutoreController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAutore(@PathVariable long id) {
         this.autoreService.findByIdAndDelete(id);
+    }
+
+    @PatchMapping("/{userId}/avatar")
+    public void uploadAvatar(@RequestParam("profile_picture") MultipartFile file, @PathVariable long AutoreId) {
+        // Questo endpoint non gestirà JSON come gli altri. Il payload sarà di tipo MULTIPART/FORMDATA
+        // (formato pensato per l'upload di file)
+
+        // profile_picture è un nome qualsiasi, però deve corrispondere ESATTAMENTE al campo del FormData dove verrà inserito
+        // il file. Altrimenti il file non verrà trovato
+        System.out.println(file.getOriginalFilename());
+        System.out.println(file.getSize());
+        System.out.println(file.getContentType());
+
+        this.autoreService.avatarupload(file, AutoreId);
+
     }
 }
